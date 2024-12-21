@@ -1,6 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Use this if you're using React Router
-
 function Home() {
     return (
         <div style={{ textAlign: 'center', marginTop: '50px' }}>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Button, Typography, Container, Paper } from "@mui/material";
 import { styled } from "@mui/system";
-
+import { useNavigate } from "react-router-dom";
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
   display: "flex",
@@ -20,6 +20,7 @@ const Form = styled("form")(({ theme }) => ({
 }));
 
 function RegistrationComponent() {
+   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -60,8 +61,8 @@ function RegistrationComponent() {
       return;
     }
 
-    // Make the fetch call to register the user
-    fetch("http://192.168.178.161:8080/api/auth/register", {
+    // Make the fetch call to register the user 172.20.10.6
+    fetch("http://172.20.10.6:8080/api/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -73,6 +74,7 @@ function RegistrationComponent() {
         console.log("Response from backend:", data); // Log the response for debugging
         if (data === "Registration successful") {
           alert("Registration successful!");
+          navigate("/dash"); // Corrected navigation
         } else {
           alert(data); // This will show the error message from the backend
         }
