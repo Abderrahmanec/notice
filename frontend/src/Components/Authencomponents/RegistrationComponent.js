@@ -9,7 +9,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // أيقونات العرض والإخفاء
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Icons for showing and hiding password
 import { useNavigate } from "react-router-dom";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -41,7 +41,7 @@ function RegistrationComponent() {
     password: "",
   });
 
-  const [showPassword, setShowPassword] = useState(false); // للتحكم في عرض كلمة المرور
+  const [showPassword, setShowPassword] = useState(false); // To control password visibility
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -73,8 +73,8 @@ function RegistrationComponent() {
       return;
     }
 
-    // Make the fetch call to register the user 172.20.10.6
-    fetch("http://172.20.10.6:8080/api/auth/register", {
+    // Make the fetch call to register the user
+    fetch("http://192.168.1.1:8080/api/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -98,7 +98,7 @@ function RegistrationComponent() {
   };
 
   const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev); // تبديل حالة العرض
+    setShowPassword((prev) => !prev); // Toggle password visibility
   };
 
   return (
@@ -125,7 +125,7 @@ function RegistrationComponent() {
             fullWidth
             label="Password"
             name="password"
-            type={showPassword ? "text" : "password"} // التحكم بالنوع
+            type={showPassword ? "text" : "password"} // Control input type
             value={formData.password}
             onChange={handleChange}
             error={!!errors.password}
