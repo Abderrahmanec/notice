@@ -1,7 +1,17 @@
 import React, { useState } from "react";
-import { TextField, Button, Typography, Container, Paper } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Typography,
+  Container,
+  Paper,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
 import { styled } from "@mui/system";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // أيقونات العرض والإخفاء
 import { useNavigate } from "react-router-dom";
+
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
   display: "flex",
@@ -20,7 +30,7 @@ const Form = styled("form")(({ theme }) => ({
 }));
 
 function RegistrationComponent() {
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -30,6 +40,8 @@ function RegistrationComponent() {
     username: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false); // للتحكم في عرض كلمة المرور
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,20 +81,24 @@ function RegistrationComponent() {
       },
       body: JSON.stringify(formData),
     })
-      .then((response) => response.text()) // Use response.text() instead of response.json()
+      .then((response) => response.text())
       .then((data) => {
-        console.log("Response from backend:", data); // Log the response for debugging
+        console.log("Response from backend:", data);
         if (data === "Registration successful") {
           alert("Registration successful!");
-          navigate("/dash"); // Corrected navigation
+          navigate("/dash");
         } else {
-          alert(data); // This will show the error message from the backend
+          alert(data);
         }
       })
       .catch((error) => {
         console.error("Error during registration:", error);
         alert("Registration failed! Please try again.");
       });
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev); // تبديل حالة العرض
   };
 
   return (
@@ -109,11 +125,24 @@ function RegistrationComponent() {
             fullWidth
             label="Password"
             name="password"
-            type="password"
+            type={showPassword ? "text" : "password"} // التحكم بالنوع
             value={formData.password}
             onChange={handleChange}
             error={!!errors.password}
             helperText={errors.password}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={togglePasswordVisibility}
+                    edge="end"
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Register
