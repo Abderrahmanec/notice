@@ -16,10 +16,13 @@ Eine einfache Notizen-Verwaltungsanwendung, die mit Spring Boot entwickelt wurde
 - Datenbank: MySQL
 - Authentifizierung: JWT (JSON Web Token)
 - Tools: Lombok, Maven
-  
-- **Java** for the backend
-- **JavaScript** for the frontend
-- **HTML** and **CSS** for the web pages
+- 
+## Languages and Technologies Used
+- **Java** (for the backend)
+- **JavaScript** (for the frontend)
+- **HTML**, **CSS** (for the web pages)
+- **Spring Boot** (for backend services)
+
 ## Installation und Setup
 
 **Backend (Spring Boot):**
