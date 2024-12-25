@@ -1,25 +1,26 @@
 {
   "builds": [
     {
-      "src": "backend/**/pom.xml",
+      "src": "backend/pom.xml",  // Backend build command
       "use": "@railway/community/spring-boot",
       "env": {
-        "SPRING_DATASOURCE_URL": "",
-        "SPRING_PROFILES_ACTIVE": "prod"
+        "SPRING_DATASOURCE_URL": "${DATABASE_URL}",
+        "SPRING_DATASOURCE_USERNAME": "${DATABASE_USERNAME}",
+        "SPRING_DATASOURCE_PASSWORD": "${DATABASE_PASSWORD}"
       }
     },
     {
-      "src": "frontend/package.json",
+      "src": "frontend/package.json",  // Frontend build command
       "use": "@railway/community/react",
       "env": {
-        "REACT_APP_API_URL": "https://your-backend-app.up.railway.app"
+        "REACT_APP_API_URL": "https://your-backend-url.railway.app"
       }
     }
   ],
   "plugins": [
     {
       "src": "@railway/plugin-database",
-      "database": "postgres"
+      "database": "mysql"
     }
   ]
 }
