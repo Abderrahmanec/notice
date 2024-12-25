@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '17'  # You can change the version based on your requirements
-          distribution: 'adoptopenjdk'
+          distribution: 'adoptium'  # Updated to use adoptium instead of adoptopenjdk
 
       # Step 3: Build the Spring Boot application using Maven (from the backend folder)
       - name: Build with Maven
