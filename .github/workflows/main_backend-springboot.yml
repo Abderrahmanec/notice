@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy JAR app to Azure Web App - backend-springboot
 
 on:
@@ -11,53 +8,52 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout the code from the repository
       - uses: actions/checkout@v4
 
+      # 2. Set up the Java environment (version 17 in this case)
       - name: Set up Java version
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'microsoft'
 
+      # 3. Build the Spring Boot app using Maven (from the backend directory)
       - name: Build with Maven
+        working-directory: ./backend  # Run Maven inside the backend folder
         run: mvn clean install
 
+      # 4. Upload the JAR artifact for the deployment job
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: ./backend/target/*.jar  # Path to the JAR file created after build
 
   deploy:
-    runs-on: windows-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
+    runs-on: ubuntu-latest
+    needs: build  # This job depends on the build job
 
     steps:
+      # 1. Download the JAR artifact from the build job
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
-      
+
+      # 2. Log in to Azure using service principal credentials
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_9C3E242B295C4887ABC16CC925E2DCE0 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_1DFCBC4248E14AD5B8A4C48D42962C91 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_CE974E374744423DB4A56548A566E38D }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      # 3. Deploy the JAR file to Azure Web App
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'backend-springboot'
-          slot-name: 'Production'
-          package: '*.jar'
-          
+          app-name: 'backend-springboot'  # Name of the Azure Web App
+          package: '*.jar'  # Deploy the JAR file
