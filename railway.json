@@ -1,7 +1,7 @@
 {
   "builds": [
     {
-      "src": "backend/pom.xml",  // Backend build command
+      "src": "backend/pom.xml",  
       "use": "@railway/community/spring-boot",
       "env": {
         "SPRING_DATASOURCE_URL": "${DATABASE_URL}", 
@@ -10,7 +10,7 @@
       }
     },
     {
-      "src": "frontend/package.json",  // Frontend build command
+      "src": "frontend/package.json", 
       "use": "@railway/community/react",
       "env": {
         "REACT_APP_API_URL": "https://your-backend-url.railway.app"
