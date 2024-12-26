@@ -21,3 +21,7 @@ frontend/*.css linguist-language=CSS
 *.jpg binary
 *.jpeg binary
 *.pdf binary
+
+# Add correct EOL handling
+/mvnw text eol=lf
+*.cmd text eol=crlf
