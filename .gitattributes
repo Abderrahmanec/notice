@@ -1,27 +1,2 @@
-# .gitattributes file to define language detection for frontend and backend
-
-# Define Java for all .java files in the backend directory (main language used)
-backend/*.java linguist-language=Java
-
-# Define JavaScript for all .js files in the frontend directory
-frontend/*.js linguist-language=JavaScript
-
-# Define HTML for .html files in the frontend
-frontend/*.html linguist-language=HTML
-
-# Define CSS for .css files in the frontend
-frontend/*.css linguist-language=CSS
-
-# Ignore vendor files (e.g., minified JS or precompiled CSS)
-*.min.js linguist-vendored
-*.min.css linguist-vendored
-
-# Mark binary files (e.g., images, compiled files)
-*.png binary
-*.jpg binary
-*.jpeg binary
-*.pdf binary
-
-# Add correct EOL handling
 /mvnw text eol=lf
 *.cmd text eol=crlf
