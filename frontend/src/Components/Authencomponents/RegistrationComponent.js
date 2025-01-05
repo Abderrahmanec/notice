@@ -9,7 +9,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // أيقونات العرض والإخفاء
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -41,7 +41,7 @@ function RegistrationComponent() {
     password: "",
   });
 
-  const [showPassword, setShowPassword] = useState(false); // للتحكم في عرض كلمة المرور
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -73,15 +73,20 @@ function RegistrationComponent() {
       return;
     }
 
-    // Make the fetch call to register the user 172.20.10.6
-    fetch("http://172.20.10.6:8080/api/auth/register", {
+    // Make the fetch call to register the user 192.168.178.84
+    fetch("http://192.168.178.186:8080/api/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
     })
-      .then((response) => response.text())
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => { throw new Error(text) });
+        }
+        return response.text();
+      })
       .then((data) => {
         console.log("Response from backend:", data);
         if (data === "Registration successful") {
@@ -93,12 +98,12 @@ function RegistrationComponent() {
       })
       .catch((error) => {
         console.error("Error during registration:", error);
-        alert("Registration failed! Please try again.");
+        alert("Registration failed! Please try again. Error: " + error.message);
       });
   };
 
   const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev); // 
+    setShowPassword((prev) => !prev);
   };
 
   return (
@@ -118,6 +123,7 @@ function RegistrationComponent() {
             onChange={handleChange}
             error={!!errors.username}
             helperText={errors.username}
+            autoComplete="username"
           />
           <TextField
             margin="normal"
@@ -125,11 +131,12 @@ function RegistrationComponent() {
             fullWidth
             label="Password"
             name="password"
-            type={showPassword ? "text" : "password"} // التحكم بالنوع
+            type={showPassword ? "text" : "password"}
             value={formData.password}
             onChange={handleChange}
             error={!!errors.password}
             helperText={errors.password}
+            autoComplete="current-password"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
